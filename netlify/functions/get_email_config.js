@@ -5,13 +5,21 @@
 //     };
 // };
 
-
 exports.handler = async () => {
-    return {
-        stausCode: 200,
-        body: JSON.stringify({
-            publicKey : process.env.EMAILJS_PUBLIC_KEY
-        }),
-    };
+    try {
+        const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+        console.log("EmailJS Public Key:", publicKey);  // ✅ Logs the key to Netlify logs
 
-};  
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ publicKey }),
+        };
+    } catch (error) {
+        console.error("Error retrieving EmailJS public key:", error);
+
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to load email config" }),
+        };
+    }
+};
