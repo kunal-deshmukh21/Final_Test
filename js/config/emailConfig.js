@@ -1,9 +1,8 @@
-export const emailConfig = {
-    serviceId: process.env.EMAILJS_SERVICE_ID,
-    templateId: process.env.EMAILJS_TEMPLATE_ID,
-    templates: {
-        contact: process.env.EMAILJS_TEMPLATE_ID,
-        demo: process.env.EMAILJS_TEMPLATE_ID,
-        exchange: process.env.EMAILJS_TEMPLATE_ID
-    }
-};
+export let emailConfig = {};
+
+fetch('/.netlify/functions/get_email_config')
+    .then(response => response.json())
+    .then(data => {
+        emailConfig = data;
+    })
+    .catch(error => console.error("Error loading email config", error));
